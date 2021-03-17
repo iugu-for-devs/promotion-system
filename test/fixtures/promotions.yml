@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  code: MyString
+  discount_rate: 9.99
+  coupon_quantity: 1
+  expiration_date: 2021-03-17
+
+two:
+  name: MyString
+  description: MyText
+  code: MyString
+  discount_rate: 9.99
+  coupon_quantity: 1
+  expiration_date: 2021-03-17
