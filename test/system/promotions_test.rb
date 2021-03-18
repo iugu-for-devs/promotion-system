@@ -122,4 +122,23 @@ class PromotionsTest < ApplicationSystemTestCase
 
     assert_text 'deve ser único', count: 2
   end
+
+  test 'generate coupons for a promotion' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10, 
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    visit promotion_path(promotion)
+    click_on 'Gerar cupons'
+
+    assert_text 'Cupons gerados com sucesso'
+    assert_no_link 'Gerar cupons'
+    assert_no_text 'NATAL10-0000'
+    assert_text 'NATAL10-0001'
+    assert_text 'NATAL10-0002'
+    assert_text 'NATAL10-0100'
+    assert_no_text 'NATAL10-0101'
+  end
 end
