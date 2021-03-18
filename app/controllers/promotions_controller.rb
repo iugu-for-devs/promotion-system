@@ -13,8 +13,11 @@ class PromotionsController < ApplicationController
 
   def create
     @promotion = Promotion.new(promotion_params)
-    @promotion.save!
-    redirect_to @promotion
+    if @promotion.save
+      redirect_to @promotion
+    else
+      render :new
+    end
   end
 
   private
