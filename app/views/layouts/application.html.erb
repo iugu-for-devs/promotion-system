@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PromotionSystem</title>
+    <title>Sistema de Promoções</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,8 @@
   </head>
 
   <body>
+    <p><%= flash[:notice] %></p>
+    <p><%= flash[:alert] %></p>
     <%= yield %>
   </body>
 </html>

@@ -11,28 +11,28 @@
 
 <%= form_with model: @promotion do |f| %>
   <div>
-    <%= f.label :name, 'Nome' %>
+    <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
   <div>
-    <%= f.label :description, 'Descrição' %>
+    <%= f.label :description %>
     <%= f.text_area :description %>
   </div>
   <div>
-    <%= f.label :code, 'Código' %>
+    <%= f.label :code %>
     <%= f.text_field :code %>
   </div>
   <div>
-    <%= f.label :discount_rate, 'Desconto' %>
+    <%= f.label :discount_rate %>
     <%= f.number_field :discount_rate, in: 0..100, step: 0.1 %>
   </div>
   <div>
-    <%= f.label :coupon_quantity, 'Quantidade de cupons' %>
+    <%= f.label :coupon_quantity %>
     <%= f.number_field :coupon_quantity, min: 1 %>
   </div>
   <div>
-    <%= f.label :expiration_date, 'Data de término' %>
+    <%= f.label :expiration_date %>
     <%= f.text_field :expiration_date %>
   </div>
-  <%= f.submit 'Criar promoção' %>
+  <%= f.submit %>
 <% end %>
