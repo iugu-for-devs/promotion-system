@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_18_200627) do
+ActiveRecord::Schema.define(version: 2021_03_23_183650) do
 
   create_table "coupons", force: :cascade do |t|
     t.string "code"
     t.integer "promotion_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0, null: false
     t.index ["code"], name: "index_coupons_on_code", unique: true
     t.index ["promotion_id"], name: "index_coupons_on_promotion_id"
   end

@@ -136,9 +136,10 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'Cupons gerados com sucesso'
     assert_no_link 'Gerar cupons'
     assert_no_text 'NATAL10-0000'
-    assert_text 'NATAL10-0001'
-    assert_text 'NATAL10-0002'
-    assert_text 'NATAL10-0100'
+    assert_text 'NATAL10-0001 (ativo)'
+    assert_text 'NATAL10-0002 (ativo)'
+    assert_text 'NATAL10-0100 (ativo)'
     assert_no_text 'NATAL10-0101'
+    assert_link 'Desabilitar', count: 100
   end
 end
