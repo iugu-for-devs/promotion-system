@@ -56,7 +56,9 @@ class PromotionsTest < ApplicationSystemTestCase
     Promotion.create!(name: 'Natal', description: 'Promoção de Natal',
                       code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
                       expiration_date: '22/12/2033')
+    user = User.create!(email: 'jane.doe@iugu.com.br', password: '123456')
 
+    login_as user, scope: :user
     visit root_path
     click_on 'Promoções'
     click_on 'Voltar'
@@ -141,5 +143,17 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'NATAL10-0100 (ativo)'
     assert_no_text 'NATAL10-0101'
     assert_link 'Desabilitar', count: 100
+  end
+
+  test 'do not view promotion link without login' do
+    visit root_path
+
+    assert_no_link 'Promoções'
+  end
+
+  test 'do not view promotions using route without login' do
+    visit promotions_path
+
+    assert_current_path new_user_session_path
   end
 end
