@@ -1,4 +1,5 @@
 class PromotionsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_promotion, only: %i[show generate_coupons]
 
   def index

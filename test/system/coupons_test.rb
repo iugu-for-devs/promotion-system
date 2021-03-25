@@ -9,6 +9,7 @@ class CouponsTest < ApplicationSystemTestCase
                                   expiration_date: '22/12/2033')
     promotion.generate_coupons!
 
+    login_user
     visit promotion_path(promotion)
     within 'div#coupon-natal10-0001' do
       click_on 'Desabilitar'
