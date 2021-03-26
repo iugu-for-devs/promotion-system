@@ -1,3 +1,7 @@
 pt-BR:
   buttons:
     back: Voltar
+    edit: Editar
+  error_message:
+    one: 1 erro impediu esse(a) %{model} de ser salvo(a)
+    other: "%{count} erros impediram esse(a) %{model} de ser salvo(a)"

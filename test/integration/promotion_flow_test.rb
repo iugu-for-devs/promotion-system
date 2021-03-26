@@ -1,11 +1,18 @@
 require 'test_helper'
 
 class PromotionFlowTest < ActionDispatch::IntegrationTest
+  def setup
+    @promotion_params =
+      { promotion: { name: 'Natal', description: 'Promoção de natal',
+                     code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
+                     expiration_date: '22/12/2033' } }
+  end
+
   test 'can create a promotion' do
     login_user
-    post '/promotions', params: { 
+    post '/promotions', params: {
       promotion: { name: 'Natal', description: 'Promoção de natal',
-      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5, 
+      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
       expiration_date: '22/12/2033' }
     }
 
@@ -17,9 +24,9 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
   end
 
   test 'cannot create a promotion without login' do
-    post '/promotions', params: { 
+    post '/promotions', params: {
       promotion: { name: 'Natal', description: 'Promoção de natal',
-      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5, 
+      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
       expiration_date: '22/12/2033' }
     }
 
@@ -37,6 +44,17 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  # TODO: teste do update sem login
+
+  test 'cannot update a promotion without login' do
+    promotion = Promotion.create!(name: 'Cyber Monday',
+                                  coupon_quantity: 100,
+                                  description: 'Promoção de Cyber Monday',
+                                  code: 'CYBER15', discount_rate: 15,
+                                  expiration_date: '22/12/2033')
+
+    patch promotion_path(promotion), params: { **@promotion_params }
+    assert_redirected_to new_user_session_path
+  end
+
   # TODO: teste do destroy sem login
 end

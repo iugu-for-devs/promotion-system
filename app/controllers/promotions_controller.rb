@@ -1,6 +1,6 @@
 class PromotionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_promotion, only: %i[show generate_coupons]
+  before_action :set_promotion, only: %i[show edit update generate_coupons]
 
   def index
     @promotions = Promotion.all
@@ -25,6 +25,15 @@ class PromotionsController < ApplicationController
   def generate_coupons
     @promotion.generate_coupons!
     redirect_to @promotion, notice: t('.success')
+  end
+
+  def edit
+  end
+
+  def update
+    return redirect_to @promotion if @promotion.update(promotion_params)
+
+    render :edit
   end
 
   private
