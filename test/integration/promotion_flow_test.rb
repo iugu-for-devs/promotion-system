@@ -56,5 +56,13 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  # TODO: teste do destroy sem login
+  test 'cannot destroy a promotion without login' do
+    promotion = Promotion.create!(name: 'Cyber Monday',
+                                  coupon_quantity: 100,
+                                  description: 'Promoção de Cyber Monday',
+                                  code: 'CYBER15', discount_rate: 15,
+                                  expiration_date: '22/12/2033')
+    delete promotion_path(promotion)
+    assert_redirected_to new_user_session_path
+  end
 end

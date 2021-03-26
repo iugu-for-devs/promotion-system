@@ -135,7 +135,7 @@ class PromotionsTest < ApplicationSystemTestCase
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
                                   code: 'NATAL10', discount_rate: 10,
-                                  coupon_quantity: 100, 
+                                  coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
 
     login_user
@@ -164,7 +164,7 @@ class PromotionsTest < ApplicationSystemTestCase
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
                                   code: 'NATAL10', discount_rate: 10,
-                                  coupon_quantity: 100, 
+                                  coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
 
     login_user
@@ -187,7 +187,7 @@ class PromotionsTest < ApplicationSystemTestCase
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
                                   code: 'NATAL10', discount_rate: 10,
-                                  coupon_quantity: 100, 
+                                  coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
     Promotion.create!(name: 'Cyber Monday', coupon_quantity: 100,
                       description: 'Promoção de Cyber Monday',
@@ -206,10 +206,48 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'já está em uso', count: 2
   end
 
+  test 'delete a promotion' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+
+    login_user
+    visit root_path
+    click_on 'Promoções'
+    click_on promotion.name
+    assert_difference 'Promotion.count', -1 do
+      accept_confirm { click_on 'Apagar' }
+      assert_text 'Promoção apagada com sucesso'
+    end
+    assert_text 'Nenhuma promoção cadastrada'
+    assert_no_text 'Natal'
+    assert_no_text 'Promoção de Natal'
+  end
+
+  test 'cannot delete promotion with coupons' do
+    promotion = Promotion.create!(name: 'Natal',
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', discount_rate: 10,
+                                  coupon_quantity: 3,
+                                  expiration_date: '22/12/2033')
+    promotion.generate_coupons!
+
+    login_user
+    visit root_path
+    click_on 'Promoções'
+    click_on promotion.name
+    accept_confirm { click_on 'Apagar' }
+
+    assert_text 'Promoção não pode ser apagada'
+    assert_text 'Natal'
+  end
+
   test 'generate coupons for a promotion' do
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
-                                  code: 'NATAL10', discount_rate: 10, 
+                                  code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
 
@@ -242,7 +280,7 @@ class PromotionsTest < ApplicationSystemTestCase
   test 'do view promotion details without login' do
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
-                                  code: 'NATAL10', discount_rate: 10, 
+                                  code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
 
@@ -259,7 +297,7 @@ class PromotionsTest < ApplicationSystemTestCase
   test 'can not edit promotion without login' do
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de Natal',
-                                  code: 'NATAL10', discount_rate: 10, 
+                                  code: 'NATAL10', discount_rate: 10,
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
 

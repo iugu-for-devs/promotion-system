@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
 
-  resources :promotions, only: %i[index show new create edit update] do
+  resources :promotions do
     post 'generate_coupons', on: :member
   end
   resources :coupons, only: [] do

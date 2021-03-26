@@ -16,5 +16,9 @@ pt-BR:
   promotions:
     show:
       generate_coupons: Gerar cupons
+      destroy_confirm: Tem certeza que deseja apagar essa promoção?
     generate_coupons:
       success: Cupons gerados com sucesso
+    destroy:
+      success: Promoção apagada com sucesso
+      failed: Promoção não pode ser apagada

@@ -1,6 +1,7 @@
 class PromotionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_promotion, only: %i[show edit update generate_coupons]
+  before_action :set_promotion, only: %i[show edit update destroy 
+                                         generate_coupons]
 
   def index
     @promotions = Promotion.all
@@ -34,6 +35,14 @@ class PromotionsController < ApplicationController
     return redirect_to @promotion if @promotion.update(promotion_params)
 
     render :edit
+  end
+
+  def destroy
+    if @promotion.destroy
+      redirect_to promotions_path, notice: t('.success')
+    else
+      redirect_to @promotion, notice: t('.failed')
+    end
   end
 
   private
