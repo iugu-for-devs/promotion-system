@@ -8,8 +8,6 @@
   <%= f.submit 'Buscar' %>
 <% end %>
 
-<% if @promotions.empty? %>
-  <h3>Nenhuma promoção cadastrada</h3>
-<% end %>
+<%= t '.result', count: @promotions.count, term: @term %>
 
 <%= render @promotions %>

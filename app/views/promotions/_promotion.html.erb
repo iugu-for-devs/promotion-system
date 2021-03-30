@@ -1,0 +1,7 @@
+<h3><%= link_to promotion.name, promotion %></h3>
+<dl>
+  <dt><%= Promotion.human_attribute_name(:description) %></dt>
+  <dd><%= promotion.description %></dd>
+  <dt><%= Promotion.human_attribute_name(:discount_rate) %></dt>
+  <dd><%= number_to_percentage promotion.discount_rate, separator: ',', precision: 2 %></dd>
+</dl>

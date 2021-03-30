@@ -22,3 +22,8 @@ pt-BR:
     destroy:
       success: Promoção apagada com sucesso
       failed: Promoção não pode ser apagada
+    search:
+      result:
+        zero: "Nenhuma promoção encontrada para o termo: %{term}"
+        one: "%{count} promoção encontrada para o termo: %{term}"
+        other: "%{count} promoções encontradas para o termo: %{term}"
