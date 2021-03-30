@@ -16,6 +16,11 @@
   <dd><%= @promotion.coupon_quantity %></dd>
 </dl>
 
+<% if @promotion.approved? %>
+  <p>Aprovada por: <%= @promotion.promotion_approval.user.email %></p>
+<% else %>
+  <%= link_to 'Aprovar', approve_promotion_path(@promotion), method: :post, data: { confirm: 'Tem certeza? Essa operação não pode ser desfeita' } %>
+<% end %>
 
 <% if @promotion.coupons.empty? %>
   <%= link_to t('.generate_coupons'), generate_coupons_promotion_path(@promotion), method: :post %>
