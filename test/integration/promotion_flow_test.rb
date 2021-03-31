@@ -69,4 +69,20 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     delete promotion_path(promotion)
     assert_redirected_to new_user_session_path
   end
+
+  # TODO: teste de login da aprovação
+
+  test 'cannot approve if owner' do
+    user = User.create!(email: 'test@iugu.com.br', password: '123456')
+    promotion = Promotion.create!(name: 'Cyber Monday',
+                                  coupon_quantity: 100,
+                                  description: 'Promoção de Cyber Monday',
+                                  code: 'CYBER15', discount_rate: 15,
+                                  expiration_date: '22/12/2033', user: user)
+    login_user(user)
+    post approve_promotion_path(promotion)
+    assert_redirected_to promotion_path(promotion)
+    refute promotion.reload.approved?
+    assert_equal 'Ação não permitida', flash[:alert]
+  end
 end
