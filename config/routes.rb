@@ -12,4 +12,10 @@ Rails.application.routes.draw do
   resources :coupons, only: [] do
     post 'disable', on: :member
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :coupons, only: [:show], param: :code
+    end
+  end
 end
