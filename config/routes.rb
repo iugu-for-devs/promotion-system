@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     post 'disable', on: :member
   end
 
-  namespace :api do
+  namespace :api, constraints: ->(req) { req.format == :json } do
     namespace :v1 do
       resources :coupons, only: [:show], param: :code
     end

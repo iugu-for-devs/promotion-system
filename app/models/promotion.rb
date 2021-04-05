@@ -22,6 +22,17 @@ class Promotion < ApplicationRecord
     coupons.any?
   end
 
+  scope :search, ->(query) {
+    where(
+      SEARCHABLE_FIELDS
+        .map { |field| "#{field} LIKE :query" }
+        .join(' OR '), 
+      query: "%#{query}%")
+    .limit(5)
+  }
+
+  scope :available, -> { where('expiration_date >= ?', Time.zone.now) }
+
   def self.search(query)
     where(
       SEARCHABLE_FIELDS
