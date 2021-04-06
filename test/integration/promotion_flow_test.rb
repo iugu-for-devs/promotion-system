@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class PromotionFlowTest < ActionDispatch::IntegrationTest
@@ -12,8 +14,8 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     login_user
     post '/promotions', params: {
       promotion: { name: 'Natal', description: 'Promoção de natal',
-      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
-      expiration_date: '22/12/2033' }
+                   code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
+                   expiration_date: '22/12/2033' }
     }
 
     assert_redirected_to promotion_path(Promotion.last)
@@ -26,8 +28,8 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
   test 'cannot create a promotion without login' do
     post '/promotions', params: {
       promotion: { name: 'Natal', description: 'Promoção de natal',
-      code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
-      expiration_date: '22/12/2033' }
+                   code: 'NATAL10', discount_rate: 15, coupon_quantity: 5,
+                   expiration_date: '22/12/2033' }
     }
 
     assert_redirected_to new_user_session_path
@@ -38,14 +40,13 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     promotion = Promotion.create!(name: 'Natal',
                                   description: 'Promoção de natal',
                                   code: 'NATAL10', discount_rate: 15,
-                                  coupon_quantity: 5, 
+                                  coupon_quantity: 5,
                                   expiration_date: '22/12/2033', user: user)
 
     post generate_coupons_promotion_path(promotion)
 
     assert_redirected_to new_user_session_path
   end
-
 
   test 'cannot update a promotion without login' do
     user = User.create!(email: 'test@iugu.com.br', password: '123456')
@@ -82,7 +83,7 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     login_user(user)
     post approve_promotion_path(promotion)
     assert_redirected_to promotion_path(promotion)
-    refute promotion.reload.approved?
+    assert_not promotion.reload.approved?
     assert_equal 'Ação não permitida', flash[:alert]
   end
 end

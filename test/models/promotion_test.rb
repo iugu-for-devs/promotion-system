@@ -1,10 +1,12 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class PromotionTest < ActiveSupport::TestCase
   test 'attributes cannot be blank' do
     promotion = Promotion.new
 
-    refute promotion.valid?
+    assert_not promotion.valid?
     assert_includes promotion.errors[:name], 'não pode ficar em branco'
     assert_includes promotion.errors[:code], 'não pode ficar em branco'
     assert_includes promotion.errors[:discount_rate], 'não pode ficar em '\
@@ -16,13 +18,10 @@ class PromotionTest < ActiveSupport::TestCase
   end
 
   test 'code must be uniq' do
-    user = User.create(email: 'jane.doe@iugu.com.br', password: '123456')
-    Promotion.create!(name: 'Natal', description: 'Promoção de Natal',
-                      code: 'NATAL10', discount_rate: 10, coupon_quantity: 100,
-                      expiration_date: '22/12/2033', user: user)
-    promotion = Promotion.new(code: 'NATAL10')
+    other_promotion = Fabricate(:promotion)
+    promotion = Promotion.new(code: other_promotion.code)
 
-    refute promotion.valid?
+    assert_not promotion.valid?
     assert_includes promotion.errors[:code], 'já está em uso'
   end
 
@@ -33,7 +32,7 @@ class PromotionTest < ActiveSupport::TestCase
                       expiration_date: '22/12/2033', user: user)
     promotion = Promotion.new(name: 'Natal')
 
-    refute promotion.valid?
+    assert_not promotion.valid?
     assert_includes promotion.errors[:name], 'já está em uso'
   end
 
@@ -75,7 +74,7 @@ class PromotionTest < ActiveSupport::TestCase
                                      expiration_date: '22/12/2033', user: user)
     result = Promotion.search('Natal')
     assert_includes result, christmas
-    refute_includes result, cyber_monday
+    assert_not_includes result, cyber_monday
   end
 
   test '.search by partial' do
@@ -97,7 +96,7 @@ class PromotionTest < ActiveSupport::TestCase
     result = Promotion.search('natal')
     assert_includes result, christmas
     assert_includes result, christmassy
-    refute_includes result, cyber_monday
+    assert_not_includes result, cyber_monday
   end
 
   test '.search finds nothing' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Promotion < ApplicationRecord
   belongs_to :user
   has_many :coupons, dependent: :restrict_with_error
@@ -22,13 +24,14 @@ class Promotion < ApplicationRecord
     coupons.any?
   end
 
-  scope :search, ->(query) {
+  scope :search, lambda { |query|
     where(
       SEARCHABLE_FIELDS
         .map { |field| "#{field} LIKE :query" }
-        .join(' OR '), 
-      query: "%#{query}%")
-    .limit(5)
+        .join(' OR '),
+      query: "%#{query}%"
+    )
+      .limit(5)
   }
 
   scope :available, -> { where('expiration_date >= ?', Time.zone.now) }
@@ -37,9 +40,10 @@ class Promotion < ApplicationRecord
     where(
       SEARCHABLE_FIELDS
         .map { |field| "#{field} LIKE :query" }
-        .join(' OR '), 
-      query: "%#{query}%")
-    .limit(5)
+        .join(' OR '),
+      query: "%#{query}%"
+    )
+      .limit(5)
   end
 
   def approved?

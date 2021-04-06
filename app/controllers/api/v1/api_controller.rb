@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::ApiController < ActionController::API
   respond_to :json
 
@@ -5,7 +7,7 @@ class Api::V1::ApiController < ActionController::API
 
   private
 
-    def not_found_error
-      head 404
-    end
+  def not_found_error
+    head 404
+  end
 end
