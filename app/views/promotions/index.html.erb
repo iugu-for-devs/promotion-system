@@ -2,7 +2,7 @@
 
 <%= link_to 'Registrar uma promoção', new_promotion_path, class: 'btn btn-success' %>
 
-<%= form_with url: search_promotions_path, method: :get do |f| %>
+<%= form_with url: search_promotions_path, id: 'search-promotion', method: :get, local: false do |f| %>
   <%= f.label :q, 'Busca' %>
   <%= f.text_field :q %>
   <%= f.submit 'Buscar' %>
@@ -12,4 +12,24 @@
   <h3>Nenhuma promoção cadastrada</h3>
 <% end %>
 
-<%= render @promotions %>
+<div id="promotions">
+  <%= render @promotions %>
+</div>
+
+<script>
+var searchForm = document.querySelector("#search-promotion")
+var promotionDiv = document.querySelector("#promotions")
+
+searchForm.addEventListener("ajax:success", (event) => {
+  const [_data, _status, xhr] = event.detail
+  const promotions = JSON.parse(xhr.response)
+  promotionDiv.innerHTML = ""
+  promotions.forEach((promotion) => {
+    promotionDiv.insertAdjacentHTML("beforeend", promotion.code)
+  })
+})
+searchForm.addEventListener("ajax:error", (event) => {
+  promotionDiv.innerHTML = ""
+  promotionDiv.insertAdjacentHTML("beforeend", "<p style='background-color: red; color: green;'>OPA deu erro aqui</p>")
+})
+</script>

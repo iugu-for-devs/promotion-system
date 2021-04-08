@@ -49,6 +49,7 @@ class PromotionsController < ApplicationController
   def search
     @term = params[:q]
     @promotions = Promotion.search(@term)
+    render json: @promotions
   end
 
   def approve
