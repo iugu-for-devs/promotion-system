@@ -1,6 +1,6 @@
 <%= link_to 'Voltar', root_path %>
 
-<%= link_to 'Registrar uma promoção', new_promotion_path %>
+<%= link_to 'Registrar uma promoção', new_promotion_path, class: 'btn btn-success' %>
 
 <%= form_with url: search_promotions_path, method: :get do |f| %>
   <%= f.label :q, 'Busca' %>
